@@ -9,7 +9,9 @@ import com.example.viewmodel1.network.ApiProvider
 import com.example.viewmodel1.network.dto.Data
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.StateFlow
 
 sealed class Response<out T>{
     object Loading : Response<Nothing>()
@@ -19,33 +21,35 @@ sealed class Response<out T>{
 
 class MainViewModel(private val dogApiProvider: ApiProvider) : ViewModel() {
 
-    private var _dogImage = MutableLiveData<Response<Data>>()
-    val dogImage: LiveData<Response<Data>>
-        get() = _dogImage
+    private val _dogImage = MutableStateFlow<Response<Data>>()
+    val dogImage: StateFlow<Response<Data>> = _dogImage
 
 
     fun getDogImageNetworkCall() {
-        _dogImage.postValue(Response.Loading) //postvalue è =
+        //_dogImage.postValue(Response.Loading)
         viewModelScope.launch {
             try {
                 val response = dogApiProvider.getDogData()
                 if (response.isSuccessful) {
                     val dogImage = response.body()
-                    _dogImage.postValue(Response.Success(response.code(), dogImage))
+                    _dogImage.value = Response.Success(response.code(), dogImage)
                     Log.e("MainViewModel", "ok!: ${response.code()}")
 
                 } else {
-                    _dogImage.postValue(Response.Error(response.code(), response.message()))
+                    _dogImage.value = Response.Error(response.code(), response.message())
                     Log.e(
                         "MainViewModel",
-                        "com.example.viewmodel1.ui.main.Response not successful: ${response.code()}"
+                        "Response not successful: ${response.code()}"
                     )
                 }
             } catch (e: Exception) {
-                _dogImage.postValue(Response.Error(500, "ci sono problemi"))
+                _dogImage.value = Response.Error(500, "ci sono problemi")
                 Log.e("MainViewModel", "Error: ${e.message}")
             }
+
         }
+
+
     }
 
 

@@ -6,12 +6,14 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.viewmodel1.viewmodel.MainViewModel
 import com.example.viewmodel1.viewmodel.Response
 import com.example.viewmodel1.network.dto.Data
 import com.example.viewmodel1.network.MyApplication
 import com.example.viewmodel2.databinding.ActivityMainBinding
 import com.squareup.picasso.Picasso
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,16 +30,20 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel.getDogImageNetworkCall()
-
-        viewModel.dogImage.observe(this) { dogImage ->
-            when (dogImage) {
-                is Response.Error -> Toast.makeText(this, "no", LENGTH_LONG).show()
-                Response.Loading -> Toast.makeText(this, "loading", LENGTH_LONG).show()
-                is Response.Success<Data> -> Picasso.get().load(dogImage.body?.message)
-                    .into(binding.dog)
+        lifecycleScope.launch{
+            viewModel.dogImage.collect() { dogImage ->
+                when (dogImage) {
+                    is Response.Error -> Toast.makeText(this@MainActivity, "no", LENGTH_LONG).show()
+                    Response.Loading -> Toast.makeText(this@MainActivity, "loading", LENGTH_LONG).show()
+                    is Response.Success<Data> -> Picasso.get().load(dogImage.body?.message)
+                        .into(binding.dog)
+                }
+                binding.dog.visibility = View.VISIBLE
             }
+
+
         }
 
-        binding.dog.visibility = View.VISIBLE
+
     }
 }
