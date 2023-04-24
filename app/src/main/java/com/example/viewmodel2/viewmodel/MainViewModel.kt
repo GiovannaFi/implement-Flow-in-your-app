@@ -1,12 +1,12 @@
-package com.example.viewmodel1.viewmodel
+package com.example.viewmodel2.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.viewmodel1.network.ApiProvider
-import com.example.viewmodel1.network.dto.Data
+import com.example.viewmodel2.network.ApiProvider
+import com.example.viewmodel2.network.dto.Data
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +21,7 @@ sealed class Response<out T>{
 
 class MainViewModel(private val dogApiProvider: ApiProvider) : ViewModel() {
 
-    private val _dogImage = MutableStateFlow<Response<Data>>()
+    private val _dogImage = MutableStateFlow<Response<Data>>(Response.Loading)
     val dogImage: StateFlow<Response<Data>> = _dogImage
 
 

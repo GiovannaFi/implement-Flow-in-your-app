@@ -1,8 +1,8 @@
-package com.example.viewmodel1.network
+package com.example.viewmodel2.network
 
 import android.app.Application
 import android.util.Log
-import com.example.viewmodel1.viewmodel.MainViewModelFactory
+import com.example.viewmodel2.viewmodel.MainViewModelFactory
 
 class MyApplication : Application() {
 

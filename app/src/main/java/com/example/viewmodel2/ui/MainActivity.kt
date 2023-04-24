@@ -1,17 +1,17 @@
-package com.example.viewmodel1.ui
+package com.example.viewmodel2.ui
 
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.viewmodel1.viewmodel.MainViewModel
-import com.example.viewmodel1.viewmodel.Response
-import com.example.viewmodel1.network.dto.Data
-import com.example.viewmodel1.network.MyApplication
+
 import com.example.viewmodel2.databinding.ActivityMainBinding
+import com.example.viewmodel2.network.MyApplication
+import com.example.viewmodel2.network.dto.Data
+import com.example.viewmodel2.viewmodel.MainViewModel
+import com.example.viewmodel2.viewmodel.Response
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.launch
 
@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
 
         viewModel.getDogImageNetworkCall()
+
         lifecycleScope.launch{
             viewModel.dogImage.collect() { dogImage ->
                 when (dogImage) {

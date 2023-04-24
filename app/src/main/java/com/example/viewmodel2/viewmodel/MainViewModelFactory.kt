@@ -1,8 +1,8 @@
-package com.example.viewmodel1.viewmodel
+package com.example.viewmodel2.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.viewmodel1.network.ApiProvider
+import com.example.viewmodel2.network.ApiProvider
 
 class MainViewModelFactory(private val dogApiProvider: ApiProvider) : ViewModelProvider.Factory{
 

@@ -1,4 +1,4 @@
-package com.example.viewmodel1.network.dto
+package com.example.viewmodel2.network.dto
 
 data class Data(
     val message: String?,
