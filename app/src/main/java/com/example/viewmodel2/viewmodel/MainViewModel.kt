@@ -26,7 +26,6 @@ class MainViewModel(private val dogApiProvider: ApiProvider) : ViewModel() {
 
 
     fun getDogImageNetworkCall() {
-        //_dogImage.postValue(Response.Loading)
         viewModelScope.launch {
             try {
                 val response = dogApiProvider.getDogData()
